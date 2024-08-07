@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
-import PaymentGatewayComponent from "@/components/PaymentGateway";
-import "./index.css";
-import { PaymentGatewayProps } from "./types";
+import PaymentGatewayComponent from "./components/PaymentGateway";
+import { PaymentGatewayProps, FailedPaymentResponseType } from "./types";
 
 class PaymentGateway {
   private options: PaymentGatewayProps;
@@ -15,9 +14,12 @@ class PaymentGateway {
     this.root = ReactDOM.createRoot(this.container);
   }
 
-  on(event: string, callback: (response: any) => void): void {
+  on(
+    event: "payment.failed" | string,
+    callback: (response: FailedPaymentResponseType) => void
+  ): void {
     if (event === "payment.failed") {
-      this.options["payment.failed"] = callback;
+      this.options[event] = callback;
     }
   }
 
@@ -37,7 +39,7 @@ class PaymentGateway {
   }
 
   close(): void {
-    // this.root.unmount();
+    this.root.unmount();
     document.body.removeChild(this.container);
   }
 }

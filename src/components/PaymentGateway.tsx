@@ -1,61 +1,93 @@
-import { PaymentGatewayProps } from "@/types";
-import React, { useState } from "react";
+import { PaymentGatewayProps } from "../types";
+import React, { useEffect, useRef } from "react";
 
 const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const iframeUrl = "http://localhost:5173";
 
-  const apiCall = async (): Promise<void> => {
-    const response = await fetch("/api");
-    const json = await response.json();
-    console.log(json);
-  };
+  useEffect(() => {
+    const sendMessageToChild = () => {
+      console.log("Parent: Sending message to child");
+      const data = {
+        url: window.location.href,
+        ...props,
+      };
+      iframeRef.current!.contentWindow!.postMessage(
+        { type: "HELLO_MESSAGE", message: JSON.stringify(data) },
+        iframeUrl
+      );
+    };
 
-  const handlePayment = (): void => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      if (props.name.toLowerCase() === "viru") {
-        props.handler({ payment_id: props.name + "SUCCESS" + Math.random() });
+    const handleMessageFromChild = (event: {
+      data: { type: string; payment_id: any };
+    }) => {
+      // In production, you should check event.origin
+      console.log("Parent: Received message", event.data);
+      if (event.data.type === "CHILD_MESSAGE") {
         props.onClose();
-      } else if (props.amount < 1000) {
-        if (props["payment.failed"]) {
-          props["payment.failed"]({
-            error: {
-              description: "Payment failed: Amount should be at least 10 INR",
-            },
-          });
-        }
-      } else {
-        if (Math.random() > 0.5) {
-          props.handler({
-            payment_id: props.name + "SUCCESS" + Math.random(),
-          });
-          props.onClose();
-        } else {
-          if (props["payment.failed"]) {
-            props["payment.failed"]({
-              error: { description: "Payment failed" },
-            });
-          }
-        }
+        // setMessageFromChild(event.data.message);
+      } else if (event.data.type === "TXN_SUCCESS") {
+        props.handler({ payment_id: event.data.payment_id });
+      } else if (
+        event.data.type === "ERROR" ||
+        event.data.type === "AMOUNT_ERROR"
+      ) {
+        props?.["payment.failed"]?.({
+          error: {
+            code: event.data.type,
+            description: event.data.payment_id,
+          },
+        });
       }
-    }, 2000);
-  };
+    };
+
+    const iframe = iframeRef.current;
+    if (iframe) {
+      iframe.addEventListener("load", sendMessageToChild);
+    }
+
+    window.addEventListener("message", handleMessageFromChild);
+
+    return () => {
+      if (iframe) {
+        iframe.removeEventListener("load", sendMessageToChild);
+      }
+      window.removeEventListener("message", handleMessageFromChild);
+    };
+  }, [props]);
 
   return (
-    <div className="payment-gateway-overlay">
-      <div className="payment-gateway-modal">
-        <h2>{props.name}</h2>
-        <img src={props.image} alt={props.name} />
-        <p>
-          Amount: {props.amount / 100} {props.currency}
-        </p>
-        <p>Customer: {props.prefill.name}</p>
-        <button onClick={handlePayment} disabled={isProcessing}>
-          {isProcessing ? "Processing..." : "Pay Now"}
-        </button>
-        <button onClick={props.onClose}>Close</button>
-      </div>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 24564736,
+      }}
+    >
+      <iframe
+        ref={iframeRef}
+        src={iframeUrl}
+        height="550px"
+        width="384px"
+        // allowtransparency="true"
+        style={{
+          opacity: 1,
+          position: "relative",
+          background: "none",
+          display: "block",
+          border: "0px none transparent",
+          margin: "0px",
+          padding: "0px",
+          zIndex: 2,
+        }}
+      />
     </div>
   );
 };

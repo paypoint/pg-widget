@@ -15,5 +15,9 @@ export type PaymentGatewayProps = {
     ondismiss: () => void;
   };
   onClose: () => void;
-  "payment.failed"?: (response: { error: { description: string } }) => void;
+  "payment.failed"?: (response: FailedPaymentResponseType) => void;
+};
+
+export type FailedPaymentResponseType = {
+  error: { code: string; description: string };
 };
