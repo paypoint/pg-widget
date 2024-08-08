@@ -63,12 +63,13 @@
           var name = document.getElementById("name").value;
 
           var options = {
-            key: "your_key_here",
+            api_key: "your_key_here",
             amount: amount,
             currency: "INR",
             name: name,
             image: "https://paypointz.com/Assets/Images/logo.png",
-            order_id: "order_" + Date.now(), // Generate a unique order ID
+            merchantid: 2,
+            order_id: "order_OgvFtn49p6bBla",
             handler: function (response) {
               console.log("Payment successful", response);
               alert("Payment successful! Payment ID: " + response.payment_id);

@@ -5,6 +5,7 @@ export type PaymentGatewayProps = {
   name: string;
   image: string;
   order_id: string;
+  merchantid: number;
   handler: (response: { payment_id: string }) => void;
   prefill: {
     name: string;

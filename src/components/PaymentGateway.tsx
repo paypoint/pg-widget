@@ -13,7 +13,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
         ...props,
       };
       iframeRef.current!.contentWindow!.postMessage(
-        { type: "HELLO_MESSAGE", message: JSON.stringify(data) },
+        { type: "SET_CONFIG", message: JSON.stringify(data) },
         iframeUrl
       );
     };
@@ -23,7 +23,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
     }) => {
       // In production, you should check event.origin
       console.log("Parent: Received message", event.data);
-      if (event.data.type === "CHILD_MESSAGE") {
+      if (event.data.type === "USER_DISMISSED_HOME_PAGE") {
         props.onClose();
         // setMessageFromChild(event.data.message);
       } else if (event.data.type === "TXN_SUCCESS") {
@@ -74,9 +74,8 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
       <iframe
         ref={iframeRef}
         src={iframeUrl}
-        height="550px"
-        width="384px"
-        // allowtransparency="true"
+        height="600px"
+        width="400px"
         style={{
           opacity: 1,
           position: "relative",
