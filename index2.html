@@ -90,7 +90,7 @@
 
           pg.on("payment.failed", function (response) {
             console.log("Payment failed", response);
-            alert("Payment failed. Error: " + response.error.description);
+            alert("Payment failed. Error: " + response.error.message);
             pg.close();
           });
 

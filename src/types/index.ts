@@ -20,5 +20,5 @@ export type PaymentGatewayProps = {
 };
 
 export type FailedPaymentResponseType = {
-  error: { code: string; description: string };
+  error: { code: string; message: string };
 };

@@ -19,7 +19,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
     };
 
     const handleMessageFromChild = (event: {
-      data: { type: string; payment_id: any };
+      data: { type: string; payment_id: string; message: string };
     }) => {
       // In production, you should check event.origin
       console.log("Parent: Received message", event.data);
@@ -35,7 +35,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
         props?.["payment.failed"]?.({
           error: {
             code: event.data.type,
-            description: event.data.payment_id,
+            message: event.data.message,
           },
         });
       }
