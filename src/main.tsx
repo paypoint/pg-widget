@@ -24,7 +24,6 @@ class PaymentGateway {
   }
 
   async open() {
-    // Show loader immediately
     this.root.render(
       <div
         style={{
@@ -40,58 +39,77 @@ class PaymentGateway {
           zIndex: 24564736,
         }}
       >
-        <div style={{ width: "12rem", height: "12rem" }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
-            <radialGradient
-              id="a9"
-              cx=".66"
-              fx=".66"
-              cy=".3125"
-              fy=".3125"
-              gradientTransform="scale(1.5)"
-            >
-              <stop offset="0" stop-color="#2563EB"></stop>
-              <stop offset=".3" stop-color="#2563EB" stop-opacity=".9"></stop>
-              <stop offset=".6" stop-color="#2563EB" stop-opacity=".6"></stop>
-              <stop offset=".8" stop-color="#2563EB" stop-opacity=".3"></stop>
-              <stop offset="1" stop-color="#2563EB" stop-opacity="0"></stop>
-            </radialGradient>
-            <circle
-              transform-origin="center"
-              fill="none"
-              stroke="url(#a9)"
-              stroke-width="9.6"
-              stroke-linecap="round"
-              stroke-dasharray="160 800"
-              stroke-dashoffset="0"
-              cx="80"
-              cy="80"
-              r="56"
-            >
-              <animateTransform
-                type="rotate"
-                attributeName="transform"
-                calcMode="spline"
-                dur="2"
-                values="360;0"
-                keyTimes="0;1"
-                keySplines="0 0 1 1"
-                repeatCount="indefinite"
-              ></animateTransform>
-            </circle>
-            <circle
-              transform-origin="center"
-              fill="none"
-              opacity=".2"
-              stroke="#2563EB"
-              stroke-width="9.6"
-              stroke-linecap="round"
-              cx="80"
-              cy="80"
-              r="56"
-            ></circle>
-          </svg>
-        </div>
+        <svg
+          width="150"
+          height="150"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21"
+            opacity="0"
+            fill="#000080"
+          >
+            <animate
+              id="spinner_id3C"
+              begin="0;spinner_8AQx.end+0.2s"
+              attributeName="opacity"
+              dur="0.25s"
+              values="0;1"
+              fill="freeze"
+            />
+            <animate
+              id="spinner_8AQx"
+              begin="spinner_mMCl.end+0.5s"
+              attributeName="opacity"
+              dur="0.1s"
+              values="1;0"
+              fill="freeze"
+            />
+          </path>
+          <path
+            d="M12,9C9.3,9 6.81,9.89 4.8,11.4L6.6,13.8C8.1,12.67 9.97,12 12,12C14.03,12 15.9,12.67 17.4,13.8L19.2,11.4C17.19,9.89 14.7,9 12,9Z"
+            opacity="0"
+            fill="#138808"
+          >
+            <animate
+              id="spinner_J1bT"
+              begin="spinner_id3C.end"
+              attributeName="opacity"
+              dur="0.25s"
+              values="0;1"
+              fill="freeze"
+            />
+            <animate
+              begin="spinner_mMCl.end+0.5s"
+              attributeName="opacity"
+              dur="0.1s"
+              values="1;0"
+              fill="freeze"
+            />
+          </path>
+          <path
+            d="M12,3C7.95,3 4.21,4.34 1.2,6.6L3,9C5.5,7.12 8.62,6 12,6C15.38,6 18.5,7.12 21,9L22.8,6.6C19.79,4.34 16.05,3 12,3"
+            opacity="0"
+            fill="#ff9933"
+          >
+            <animate
+              id="spinner_mMCl"
+              begin="spinner_J1bT.end"
+              attributeName="opacity"
+              dur="0.25s"
+              values="0;1"
+              fill="freeze"
+            />
+            <animate
+              begin="spinner_mMCl.end+0.5s"
+              attributeName="opacity"
+              dur="0.1s"
+              values="1;0"
+              fill="freeze"
+            />
+          </path>
+        </svg>
       </div>
     );
 

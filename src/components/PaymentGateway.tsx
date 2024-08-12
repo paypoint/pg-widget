@@ -7,15 +7,24 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
 
   useEffect(() => {
     const sendMessageToChild = () => {
-      console.log("Parent: Sending message to child");
-      const data = {
-        url: window.location.href,
-        ...props,
-      };
-      iframeRef.current!.contentWindow!.postMessage(
-        { type: "SET_CONFIG", message: JSON.stringify(data) },
-        iframeUrl
-      );
+      setTimeout(() => {
+        const data = {
+          url: window.location.href,
+          ...props,
+        };
+        if (iframeRef.current) {
+          if (iframeRef.current.contentWindow) {
+            iframeRef.current.contentWindow.postMessage(
+              { type: "SET_CONFIG", message: JSON.stringify(data) },
+              iframeUrl
+            );
+          } else {
+            console.log("iframeRef.current.contentWindow is null");
+          }
+        } else {
+          console.log("iframeRef.current is null");
+        }
+      }, 500);
     };
 
     const handleMessageFromChild = (event: {
@@ -54,7 +63,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
       }
       window.removeEventListener("message", handleMessageFromChild);
     };
-  }, [props]);
+  }, [props, iframeRef.current]);
 
   return (
     <div
