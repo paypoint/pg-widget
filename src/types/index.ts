@@ -7,7 +7,7 @@ export type PaymentGatewayProps = {
   order_id: string;
   merchantid: number;
   location: GeolocationPosition;
-  handler: (response: { payment_id: string }) => void;
+  handler: (response: { message: string; payment_id: string }) => void;
   prefill: {
     name: string;
     email: string;

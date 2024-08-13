@@ -36,7 +36,10 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
         props.onClose();
         // setMessageFromChild(event.data.message);
       } else if (event.data.type === "TXN_SUCCESS") {
-        props.handler({ payment_id: event.data.payment_id });
+        props.handler({
+          message: event.data.message,
+          payment_id: event.data.payment_id,
+        });
       } else if (
         event.data.type === "ERROR" ||
         event.data.type === "AMOUNT_ERROR"

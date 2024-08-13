@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment Gateway Demo</title>
-    <!-- <link rel="stylesheet" href="dist/style.css" /> -->
     <script src="dist/payment-gateway.js"></script>
     <style>
       form {
@@ -68,12 +67,12 @@
       async function getOrderID(receipt, amount) {
         try {
           const response = await fetch(
-            "https://sdkapi-uat.digikhata.in/api/v1/getOrderId",
+            "https://sdkapi.digikhata.in/api/v1/getOrderId",
             {
               method: "POST",
               headers: {
                 "x-api-key": "Basic TUExeEo1cHNhajp1eGZSTGUxbHd0S1k=",
-                merchantid: "2",
+                merchantid: "1",
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
@@ -95,8 +94,9 @@
             currency: "INR",
             name: name,
             image: "https://paypointz.com/Assets/Images/logo.png",
-            merchantid: 2,
+            merchantid: 1,
             order_id: result.data.OrderId,
+            receipt: receipt,
             handler: function (response) {
               console.log("Payment successful", response);
               alert("Payment successful! Payment ID: " + response.payment_id);
