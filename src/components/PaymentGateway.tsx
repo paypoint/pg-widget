@@ -95,8 +95,6 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
       <iframe
         ref={iframeRef}
         src={iframeUrl}
-        height="600px"
-        width="400px"
         style={{
           opacity: 1,
           position: "relative",
@@ -106,6 +104,9 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
           margin: "0px",
           padding: "0px",
           zIndex: 2,
+          height: "37.5rem",
+          width: "25rem",
+          minHeight: "100% !important",
         }}
       />
     </div>

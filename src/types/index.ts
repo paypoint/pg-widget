@@ -6,7 +6,7 @@ export type PaymentGatewayProps = {
   image: string;
   order_id: string;
   merchantid: number;
-  location: GeolocationPosition;
+  location: { latitude: number; longitude: number };
   handler: (response: {
     TransactionId?: string;
     CustomerRefNo?: string;
