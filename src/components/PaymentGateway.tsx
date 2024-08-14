@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 
 const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const iframeUrl = "http://localhost:5173";
+  const iframeUrl = "https://jssdk.digikhata.in/v1/";
 
   useEffect(() => {
     const sendMessageToChild = () => {
@@ -28,7 +28,13 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
     };
 
     const handleMessageFromChild = (event: {
-      data: { type: string; payment_id: string; message: string };
+      data: {
+        type: string;
+        payment_id: string;
+        message: string;
+        TransactionId?: string;
+        CustomerRefNo?: string;
+      };
     }) => {
       // In production, you should check event.origin
       console.log("Parent: Received message", event.data);
@@ -39,7 +45,10 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
         props.handler({
           message: event.data.message,
           payment_id: event.data.payment_id,
+          TransactionId: event.data.TransactionId,
+          CustomerRefNo: event.data.CustomerRefNo,
         });
+        props.onClose();
       } else if (
         event.data.type === "ERROR" ||
         event.data.type === "AMOUNT_ERROR"
