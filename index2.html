@@ -50,7 +50,6 @@
       <button type="submit">Proceed to Payment</button>
     </form>
 
-    <div id="pg-widget"></div>
     <div id="payment-response"></div>
 
     <script>
@@ -64,7 +63,7 @@
           await getOrderID("U2408050019100233067", amount);
           return;
         });
-      const merchantid = 5731;
+      const merchantid = 1;
       async function getOrderID(receipt, amount) {
         try {
           const response = await fetch(
@@ -112,11 +111,6 @@
                 "<p>CustomerRefNo: " +
                 response.CustomerRefNo +
                 "</p>";
-            },
-            prefill: {
-              name: name,
-              email: "",
-              contact: "",
             },
             modal: {
               ondismiss: function () {
