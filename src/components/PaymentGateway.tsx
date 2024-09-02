@@ -53,7 +53,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
         event.data.type === "ERROR" ||
         event.data.type === "AMOUNT_ERROR"
       ) {
-        props?.["payment.failed"]?.({
+        props["payment.failed"]?.({
           error: {
             code: event.data.type,
             message: event.data.message,
@@ -104,7 +104,7 @@ const PaymentGatewayComponent: React.FC<PaymentGatewayProps> = (props) => {
           margin: "0px",
           padding: "0px",
           zIndex: 2,
-          height: "37.5rem",
+          height: "40.5rem",
           width: "25rem",
           minHeight: "100% !important",
         }}
