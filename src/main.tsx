@@ -114,7 +114,12 @@ class PaymentGateway {
     );
 
     try {
-      const location = await this.getLocation();
+      // const location = await this.getLocation();
+      const location = (await this.getLocationFromBigData()) || {
+        latitude: 19.216776,
+        longitude: 72.851226,
+      };
+
       const props = { ...this.options, location };
 
       this.root.render(
@@ -161,6 +166,23 @@ class PaymentGateway {
       } else {
         reject(new Error("Geolocation is not supported by this browser."));
       }
+    });
+  }
+
+  private getLocationFromBigData(): Promise<{
+    latitude: number;
+    longitude: number;
+  }> {
+    return new Promise((resolve, reject) => {
+      fetch("https://api.bigdatacloud.net/data/reverse-geocode-client")
+        .then((response) => response.text())
+        .then((result: any) =>
+          resolve({
+            latitude: result.latitude,
+            longitude: result.longitude,
+          })
+        )
+        .catch((error) => reject(error));
     });
   }
 }
