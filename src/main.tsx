@@ -175,14 +175,20 @@ class PaymentGateway {
   }> {
     return new Promise((resolve, reject) => {
       fetch("https://api.bigdatacloud.net/data/reverse-geocode-client")
-        .then((response) => response.text())
-        .then((result: any) =>
-          resolve({
-            latitude: result.latitude,
-            longitude: result.longitude,
-          })
-        )
-        .catch((error) => reject(error));
+        .then((response) => response.json())
+        .then((result) => {
+          if (result && result.latitude && result.longitude) {
+            resolve({
+              latitude: result.latitude,
+              longitude: result.longitude,
+            });
+          } else {
+            reject(new Error("Invalid API response"));
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
   }
 }
